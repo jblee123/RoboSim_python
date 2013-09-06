@@ -46,7 +46,6 @@ class RobotComm:
 
             # read and handle a message
             ( msg, (host, port) ) = self.sock.recvfrom( 65536 )
-            print( 'r recv: ' + str(time()))
             msg = marshal.loads( msg )
 
             if ( msg[0] == wait_for ):
@@ -74,19 +73,16 @@ class RobotComm:
                              pos.location.x, pos.location.y, pos.location.z,
                              pos.heading, color, max_vel, max_angular_vel,
                              radius ) )
-        print( 'r send: ' + str(time()))
         self.sock.sendto( s, self.console_addr )
 
     def send_position_update( self, pos ):
         s = marshal.dumps( ( comm_codes.POSITION, self.id,
                              pos.location.x, pos.location.y, pos.location.z,
                              pos.heading ) )
-        print( 'r send: ' + str(time()))
         self.sock.sendto( s, self.console_addr )
 
     def get_position( self ):
         s = marshal.dumps( ( comm_codes.REQUEST_POSITION, self.id ) )
-        print( 'r send: ' + str(time()))
         self.sock.sendto( s, self.console_addr )
         msg = self.wait_for_msg( comm_codes.POSITION )
         ( type, x, y, z, t ) = msg
@@ -94,7 +90,6 @@ class RobotComm:
 
     def send_death_msg( self ):
         s = marshal.dumps( ( comm_codes.ROBOT_DYING, self.id ) )
-        print( 'r send: ' + str(time()))
         self.sock.sendto( s, self.console_addr )
 
     def start_robot( self, msg ):
@@ -110,7 +105,6 @@ class RobotComm:
 
     def get_obs( self ):
         s = marshal.dumps( ( comm_codes.GET_OBSTACLES, self.id ) )
-        print( 'r send: ' + str(time()))
         self.sock.sendto( s, self.console_addr )
         msg = self.wait_for_msg( comm_codes.OBS_READINGS )
 
@@ -125,7 +119,6 @@ class RobotComm:
     def sim_move( self, movement ):
         s = marshal.dumps( ( comm_codes.MOVE, self.id,
                              movement.x, movement.y ) )
-        print( 'r send: ' + str(time()))
         self.sock.sendto( s, self.console_addr )
 
     handlers = { comm_codes.START : start_robot,

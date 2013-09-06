@@ -12,5 +12,5 @@ msgs = ( 'ALIVE',
 
 i = 0
 while ( i < len(msgs) ):
-    exec( '%s = %d' % ( msgs[i], i ) )
+    exec( '%s = %d' % ( msgs[i], i + 1 ) )
     i = i + 1

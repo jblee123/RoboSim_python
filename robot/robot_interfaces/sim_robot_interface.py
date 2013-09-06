@@ -4,7 +4,6 @@ sys.path.append( '..' )
 from utils import *
 from robot_interface import *
 
-import time
 import logger
 
 ################################################################################

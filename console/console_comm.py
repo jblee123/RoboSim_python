@@ -40,7 +40,6 @@ class ConsoleComm:
 
             # read and handle a message
             ( msg, (host, port) ) = self.sock.recvfrom( 65536 )
-            print( 'c recv: ' + str(time()))
             msg = marshal.loads( msg )
             if ( msg[0] == comm_codes.ALIVE ):
                 self.register_new_robot( msg, (host, port) )
@@ -84,24 +83,20 @@ class ConsoleComm:
         if ( pos ):
             s = marshal.dumps( (comm_codes.POSITION, pos.location.x,
                                 pos.location.y, pos.location.z, pos.heading) )
-            print( 'c send: ' + str(time()))
             self.sock.sendto( s, self.addresses[ id ] )
 
     def send_start_msg( self, id ):
         s = marshal.dumps( (comm_codes.START, ) )
-        print( 'c send: ' + str(time()))
         self.sock.sendto( s, self.addresses[ id ] )
 
     def send_killall( self ):
         s = marshal.dumps( (comm_codes.KILL, ) )
         for address in self.addresses.values():
-            print( 'c send: ' + str(time()))
             self.sock.sendto( s, address )
 
     def send_switch_pause( self ):
         s = marshal.dumps( (comm_codes.PAUSE, ) )
         for address in self.addresses.values():
-            print( 'c send: ' + str(time()))
             self.sock.sendto( s, address )
 
     def get_obs_readings( self, msg ):
@@ -112,7 +107,6 @@ class ConsoleComm:
             data.append( reading.x )
             data.append( reading.y )
         data = marshal.dumps( data )
-        print( 'c send: ' + str(time()))
         self.sock.sendto( data, self.addresses[ id ] )
 
     def robot_dying( self, msg ):
